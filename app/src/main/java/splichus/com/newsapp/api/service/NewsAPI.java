@@ -11,6 +11,6 @@ public interface NewsAPI {
 
     @Headers("Accept: application/json")
     @GET("everything")
-    Call<APIResponse> getEverything(@Header("X-Api-Key") String apiKey, @Query("pageSize") int pageSize);
+    Call<APIResponse> getEverything(@Header("X-Api-Key") String apiKey, @Query("pageSize") int pageSize, @Query("q") String keyword);
 }
 
