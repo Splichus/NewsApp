@@ -30,8 +30,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    NewsAPI realApi() {
-        return new Retrofit.Builder().baseUrl(Constants.SHARED_PREF).addConverterFactory(GsonConverterFactory.create()).build().create(NewsAPI.class);
+    NewsAPI api() {
+        return new Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build().create(NewsAPI.class);
     }
 
 }
