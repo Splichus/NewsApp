@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, DetailsActivity.class);
                 intent.putExtra(Constants.ARTICLE, articles.get(i).getUrl());
+                ctx.startActivity(intent);
             }
         });
     }
