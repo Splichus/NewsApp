@@ -11,6 +11,7 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import splichus.com.newsapp.Constants;
+import splichus.com.newsapp.adapter.RecyclerAdapter;
 import splichus.com.newsapp.api.service.NewsAPI;
 
 @Module
