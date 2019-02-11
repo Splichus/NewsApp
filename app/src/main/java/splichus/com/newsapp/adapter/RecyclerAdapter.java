@@ -16,10 +16,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
 import splichus.com.newsapp.activity.DetailsActivity;
 import splichus.com.newsapp.model.Article;
+import splichus.com.newsapp.persistency.Database;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
@@ -27,10 +30,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     List<Article> articles;
     Context ctx;
+    Database database;
 
-    public RecyclerAdapter(List<Article> articles, Context ctx) {
+    public RecyclerAdapter(List<Article> articles, Context ctx, Database database) {
         this.articles = articles;
         this.ctx = ctx;
+        this.database = database;
     }
 
     @NonNull
@@ -42,7 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         Log.d(TAG, "onBindViewHolder: called");
         Picasso.get().load(articles.get(i).getUrlToImage()).into(viewHolder.picture);
         viewHolder.title.setText(articles.get(i).getTitle());
@@ -55,6 +60,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 ctx.startActivity(intent);
             }
         });
+        viewHolder.arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                database.articleDAO().addArticle(articles.get(i));
+                viewHolder.arrow.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
     @Override
@@ -68,6 +81,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private ImageView picture;
         private TextView title;
         private TextView author;
+        private ImageView arrow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +89,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             picture = itemView.findViewById(R.id.list_item_picture);
             title = itemView.findViewById(R.id.list_item_title);
             author = itemView.findViewById(R.id.list_item_author);
+            arrow = itemView.findViewById(R.id.list_item_arrow);
         }
     }
 
