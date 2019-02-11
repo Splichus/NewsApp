@@ -28,7 +28,6 @@ import splichus.com.newsapp.api.model.APIResponse;
 import splichus.com.newsapp.api.model.CustomCallback;
 import splichus.com.newsapp.api.service.NewsAPI;
 import splichus.com.newsapp.model.Article;
-import splichus.com.newsapp.model.SavedArticles;
 import splichus.com.newsapp.model.Settings;
 import splichus.com.newsapp.persistency.Database;
 
@@ -87,16 +86,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getArticles() {
+        articles.clear();
         if (settings.getApis().get(Constants.NEWSAPI_URL)) {
             api.getEverything(BuildConfig.API_KEY, 100, "android").enqueue(new CustomCallback<APIResponse>() {
                 @Override
                 public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-                    articles.clear();
                     articles.addAll(response.body().getArticles());
                     adapter.notifyDataSetChanged();
                 }
             });
         }
+        adapter.notifyDataSetChanged();
     }
 
     private void goToSettings() {

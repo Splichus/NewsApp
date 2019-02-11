@@ -1,21 +1,23 @@
 package splichus.com.newsapp.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.UUID;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "users")
+@Entity(tableName = "articles")
 public class Article implements Serializable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
     private String author;
     private String url;
     private String urlToImage;
 
+    @Ignore
     public Article(String title, String author, String url, String urlToImage) {
         this.author = author;
         this.title = title;
@@ -26,12 +28,12 @@ public class Article implements Serializable {
     public Article() {
     }
 
-    public String getAuthor() {
-        return author;
+    public int getId() {
+        return id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -40,6 +42,14 @@ public class Article implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getUrl() {

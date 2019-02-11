@@ -1,20 +1,19 @@
 package splichus.com.newsapp.dagger.module;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.api.service.NewsAPI;
-import splichus.com.newsapp.model.SavedArticles;
 import splichus.com.newsapp.model.Settings;
 import splichus.com.newsapp.persistency.Database;
 
@@ -35,13 +34,6 @@ public class AppModule {
 
     @Provides
     @Singleton
-    @Inject
-    SavedArticles savedArticles(Application application) {
-        return new SavedArticles(application);
-    }
-
-    @Provides
-    @Singleton
     NewsAPI api() {
         return new Retrofit.Builder().baseUrl(Constants.NEWSAPI_URL).addConverterFactory(GsonConverterFactory.create()).build().create(NewsAPI.class);
     }
@@ -56,6 +48,6 @@ public class AppModule {
     @Singleton
     @Inject
     Database database(Context ctx) {
-        return Room.databaseBuilder(ctx, Database.class, "mydb").build();
+        return Room.databaseBuilder(ctx, Database.class, "mydb").allowMainThreadQueries().build();
     }
 }
