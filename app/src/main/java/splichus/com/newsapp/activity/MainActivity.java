@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -82,12 +83,14 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.toolbar_settings){
             goToSettings();
-        } else {
+        } else if(item.getItemId() == R.id.toolbar_downloaded) {
             if (!down) {
                 articleService.getFromDB();
             } else {
                 articleService.getFromCache();
             }
+        } else {
+            openSortDialog();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -112,5 +115,10 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
     private void goToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    private void openSortDialog(){
+        SortDialog sortDialog = new SortDialog();
+        sortDialog.show(getSupportFragmentManager(),"sortDialog");
     }
 }

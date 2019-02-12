@@ -10,8 +10,15 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/toolbarfilter"
+        android:icon="@drawable/sort"
+        android:title="Sort"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/toolbar_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Settings"
         app:showAsAction="ifRoom"/>
+
 </menu>
