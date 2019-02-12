@@ -10,19 +10,22 @@ import java.util.UUID;
 @Entity(tableName = "articles")
 public class Article implements Serializable {
 
+
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private String url;
     private String title;
     private String author;
-    private String url;
     private String urlToImage;
+    private String publishedAt;
 
     @Ignore
-    public Article(String title, String author, String url, String urlToImage) {
+    public Article(String title, String author, String url, String urlToImage, String publishedAt) {
         this.author = author;
         this.title = title;
         this.url = url;
         this.urlToImage = urlToImage;
+        this.publishedAt = publishedAt;
     }
 
     public Article() {
@@ -66,5 +69,13 @@ public class Article implements Serializable {
 
     public void setUrlToImage(String urlToImage) {
         this.urlToImage = urlToImage;
+    }
+
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
 }

@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 import splichus.com.newsapp.model.Article;
 import splichus.com.newsapp.persistency.dao.ArticleDAO;
 
-@android.arch.persistence.room.Database(entities = {Article.class}, version = 1)
+@android.arch.persistence.room.Database(entities = {Article.class}, version = 4, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     public abstract ArticleDAO articleDAO();

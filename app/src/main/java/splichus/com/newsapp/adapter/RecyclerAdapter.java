@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,10 +33,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     Context ctx;
     Database database;
 
-    public RecyclerAdapter(List<Article> articles, Context ctx, Database database) {
-        this.articles = articles;
+    public RecyclerAdapter(Context ctx, Database database) {
+        this.articles = new ArrayList<>();
         this.ctx = ctx;
         this.database = database;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     @NonNull
@@ -60,14 +65,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 ctx.startActivity(intent);
             }
         });
+        if (downloaded(i)) {
+            viewHolder.arrow.setImageResource(R.drawable.delete);
+        } else {
+            viewHolder.arrow.setImageResource(R.drawable.not_downloaded);
+        }
         viewHolder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database.articleDAO().addArticle(articles.get(i));
-                viewHolder.arrow.setVisibility(View.INVISIBLE);
+                if (downloaded(i)){
+                    viewHolder.arrow.setImageResource(R.drawable.not_downloaded);
+                    database.articleDAO().deleteArticleByUrl(articles.get(i).getUrl());
+                } else {
+                    viewHolder.arrow.setImageResource(R.drawable.delete);
+                    database.articleDAO().addArticle(articles.get(i));
+                }
             }
         });
-
     }
 
     @Override
@@ -91,6 +105,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             author = itemView.findViewById(R.id.list_item_author);
             arrow = itemView.findViewById(R.id.list_item_arrow);
         }
+    }
+
+    private boolean downloaded(int i) {
+        return database.articleDAO().getArticleByUrl(articles.get(i).getUrl()) != null;
     }
 
 }

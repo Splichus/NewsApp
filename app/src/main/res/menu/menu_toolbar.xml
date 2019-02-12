@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/toolbar_downloaded"
-        android:icon="@drawable/ic_file_download_black_24dp"
+        android:icon="@drawable/not_downloaded"
         android:title="Downloaded Articles"
         app:showAsAction="ifRoom"/>
 

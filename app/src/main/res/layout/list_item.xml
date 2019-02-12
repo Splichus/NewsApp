@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="110dp"
 
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,30 +11,31 @@
         android:id="@+id/list_item_parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/list_item_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/list_item_picture"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="160dp"
+            android:layout_height="90dp"
+            android:cropToPadding="false"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:cropToPadding="false"
-            android:scaleType="fitXY" />/>
+            app:layout_constraintTop_toTopOf="parent" />/>
 
         <LinearLayout
             android:id="@+id/list_item_text_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/list_item_picture"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/margin_medium">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/list_item_title"
@@ -42,14 +43,14 @@
                 android:layout_height="wrap_content"
                 android:text="poklop"
                 android:textSize="@dimen/text_medium"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/list_item_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="poklop odklop"
-                android:textSize="@dimen/text_small"/>
+                android:textSize="@dimen/text_small" />
 
         </LinearLayout>
 
