@@ -49,6 +49,6 @@ public class AppModule {
     @Singleton
     @Inject
     Database database(Context ctx) {
-        return Room.databaseBuilder(ctx, Database.class, "mydb").allowMainThreadQueries().build();
+        return Room.databaseBuilder(ctx, Database.class, Constants.DATABASE).allowMainThreadQueries().build();
     }
 }

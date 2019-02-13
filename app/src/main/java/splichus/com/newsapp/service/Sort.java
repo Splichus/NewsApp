@@ -7,14 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.model.Article;
 
-public class Sort implements Serializable {
+public class Sort {
 
     String sortBy;
     ArticlesListener activity;
@@ -33,12 +31,13 @@ public class Sort implements Serializable {
     }
 
     public void sort (List<Article> articles) {
-        if (getSortingKey().equals(Constants.SORT_DATE)) {
-            activity.onArticles(sortByDate(articles));
-        } else if (getSortingKey().equals(Constants.SORT_AUTHOR)) {
-            activity.onArticles(sortByAuthor(articles));
-        } else activity.onArticles(articles);
-
+        if (getSortingKey() != null) {
+            if (getSortingKey().equals(Constants.SORT_DATE)) {
+                activity.onArticles(sortByDate(articles));
+            } else if (getSortingKey().equals(Constants.SORT_AUTHOR)) {
+                activity.onArticles(sortByAuthor(articles));
+            } else activity.onArticles(articles);
+        }
     }
 
     private List<Article> sortByAuthor(List<Article> articles) {
