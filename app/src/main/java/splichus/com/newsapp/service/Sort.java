@@ -1,8 +1,6 @@
 package splichus.com.newsapp.service;
 
 
-import android.support.v4.app.NavUtils;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,32 +16,29 @@ import splichus.com.newsapp.model.Article;
 
 public class Sort implements Serializable {
 
-    Map<String, Boolean> sorts;
+    String sortBy;
+    ArticlesListener activity;
 
-    public Sort() {
-        sorts = new HashMap<>();
+    public Sort(ArticlesListener activity) {
+        sortBy = "";
+        this.activity = activity;
     }
 
     public String getSortingKey() {
-        for (Map.Entry<String, Boolean> entry : sorts.entrySet()) {
-            if (entry.getValue()) return entry.getKey();
-        }
-        return "";
+        return sortBy;
     }
 
-    public void setSort(String sort) {
-        for (Map.Entry<String, Boolean> entry : sorts.entrySet()) {
-            entry.setValue(false);
-        }
-        sorts.put(sort, true);
+    public void setSortingKey(String sort) {
+        this.sortBy = sort;
     }
 
-    public List<Article> sort(List<Article> articles) {
-        if (getSortingKey().equals(Constants.SORT_AUTHOR)) {
-            return sortByAuthor(articles);
-        } else if (getSortingKey().equals(Constants.SORT_DATE)) {
-            return sortByDate(articles);
-        } else return articles;
+    public void sort (List<Article> articles) {
+        if (getSortingKey().equals(Constants.SORT_DATE)) {
+            activity.onArticles(sortByDate(articles));
+        } else if (getSortingKey().equals(Constants.SORT_AUTHOR)) {
+            activity.onArticles(sortByAuthor(articles));
+        } else activity.onArticles(articles);
+
     }
 
     private List<Article> sortByAuthor(List<Article> articles) {

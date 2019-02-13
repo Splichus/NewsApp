@@ -22,13 +22,11 @@
         <RadioButton android:id="@+id/radio_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sort_by_author"
-            android:onClick="onRadioButtonClicked"/>
+            android:text="@string/sort_by_author" />
         <RadioButton android:id="@+id/radio_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/order_by_date"
-            android:onClick="onRadioButtonClicked"/>
+            android:text="@string/order_by_date" />
     </RadioGroup>
 
     <TextView

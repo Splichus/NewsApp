@@ -39,10 +39,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
     Settings settings;
     @Inject
     Database database;
-    @Inject
-    Sort sort;
 
     ArticleService articleService;
+    Sort sort;
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
     Context ctx;
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         articleService = new ArticleService(this, settings, database, api, sort);
+        sort = new Sort(this);
         ctx = this;
         down = false;
         if (findViewById(R.id.dual_details) != null) {
@@ -123,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         }
     }
 
+    @Override
+    public void onSort(List<Article> articles) {
+
+    }
+
     private void goToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -131,21 +136,5 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
     private void openSortDialog(){
         SortDialog sortDialog = new SortDialog();
         sortDialog.show(getSupportFragmentManager(),"sortDialog");
-    }
-
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        switch(view.getId()) {
-            case R.id.radio_author:
-                if (checked){
-                    sort.setSort(Constants.SORT_AUTHOR);
-                }
-                break;
-            case R.id.radio_date:
-                if (checked){
-                    sort.setSort(Constants.SORT_DATE);
-                }
-                break;
-        }
     }
 }

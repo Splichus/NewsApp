@@ -51,10 +51,4 @@ public class AppModule {
     Database database(Context ctx) {
         return Room.databaseBuilder(ctx, Database.class, "mydb").allowMainThreadQueries().build();
     }
-
-    @Provides
-    @Singleton
-    Sort sort() {
-        return new Sort();
-    }
 }

@@ -46,15 +46,14 @@ public class ArticleService {
     }
 
     public void getFromDB() {
-        activity.onArticles(sort.sort(database.articleDAO().getAllArticles()));
+        activity.onArticles(database.articleDAO().getAllArticles());
         activity.onDownloaded(true);
     }
+
     public void getFromCache() {
-        activity.onArticles(sort.sort(articles));
+        activity.onArticles(articles);
         activity.onDownloaded(false);
     }
-
-
 
     public List<Article> getArticles() {
         return articles;
