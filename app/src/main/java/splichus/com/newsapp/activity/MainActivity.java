@@ -123,11 +123,6 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         }
     }
 
-    @Override
-    public void onSort(List<Article> articles) {
-
-    }
-
     private void goToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
