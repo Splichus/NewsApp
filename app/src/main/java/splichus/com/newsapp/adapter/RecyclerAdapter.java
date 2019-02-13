@@ -2,6 +2,7 @@ package splichus.com.newsapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,8 @@ import javax.inject.Inject;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
 import splichus.com.newsapp.activity.DetailsActivity;
+import splichus.com.newsapp.activity.MainActivity;
+import splichus.com.newsapp.fragment.DetailsFragment;
 import splichus.com.newsapp.model.Article;
 import splichus.com.newsapp.persistency.Database;
 
@@ -29,14 +32,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     private static final String TAG = "RecycylerViewAdapter";
 
-    List<Article> articles;
-    Context ctx;
-    Database database;
+    private MainActivity parent;
+    private List<Article> articles;
+    private Database database;
+    private Boolean twoPane;
 
-    public RecyclerAdapter(Context ctx, Database database) {
+    public RecyclerAdapter(MainActivity parent, Database database, Boolean twoPane) {
+        this.parent = parent;
         this.articles = new ArrayList<>();
-        this.ctx = ctx;
         this.database = database;
+        this.twoPane = twoPane;
     }
 
     public void setArticles(List<Article> articles) {
@@ -60,9 +65,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, DetailsActivity.class);
-                intent.putExtra(Constants.ARTICLE, articles.get(i).getUrl());
-                ctx.startActivity(intent);
+                if (!twoPane) {
+                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                    intent.putExtra(Constants.ARTICLE, articles.get(i).getUrl());
+                    v.getContext().startActivity(intent);
+                } else {
+                    Bundle url = new Bundle();
+                    url.putString(Constants.URL, articles.get(i).getUrl());
+                    DetailsFragment fragment = new DetailsFragment();
+                    fragment.setArguments(url);
+                    parent.getSupportFragmentManager().beginTransaction().replace(R.id.dual_details, fragment).commit();
+                }
             }
         });
         if (downloaded(i)) {

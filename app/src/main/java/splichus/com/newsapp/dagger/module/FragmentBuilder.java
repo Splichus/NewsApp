@@ -9,5 +9,5 @@ import splichus.com.newsapp.fragment.DetailsFragment;
 public abstract class FragmentBuilder {
 
     @ContributesAndroidInjector()
-    abstract SortDialog binddSortDialog();
+    abstract DetailsFragment bindDetailsFragment();
 }

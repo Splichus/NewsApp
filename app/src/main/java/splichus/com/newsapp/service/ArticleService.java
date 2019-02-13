@@ -1,11 +1,6 @@
 package splichus.com.newsapp.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,13 +16,13 @@ import splichus.com.newsapp.persistency.Database;
 public class ArticleService {
 
     List<Article> articles;
-    ArticlesProvider activity;
+    ArticlesListener activity;
     Settings settings;
     Database database;
     NewsAPI api;
     Sort sort;
 
-    public ArticleService(ArticlesProvider activity, Settings settings, Database database, NewsAPI api, Sort sort) {
+    public ArticleService(ArticlesListener activity, Settings settings, Database database, NewsAPI api, Sort sort) {
         this.settings = settings;
         this.articles = new ArrayList<>();
         this.activity = activity;
@@ -42,7 +37,7 @@ public class ArticleService {
             api.getEverything(BuildConfig.API_KEY, 20, "android").enqueue(new CustomCallback<APIResponse>() {
                 @Override
                 public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-                    articles.addAll(sort.sort(response.body().getArticles()));
+                    articles.addAll((response.body().getArticles()));
                     activity.onArticles(articles);
                     activity.onDownloaded(false);
                 }
@@ -58,6 +53,8 @@ public class ArticleService {
         activity.onArticles(sort.sort(articles));
         activity.onDownloaded(false);
     }
+
+
 
     public List<Article> getArticles() {
         return articles;

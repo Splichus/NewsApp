@@ -26,10 +26,10 @@ import splichus.com.newsapp.service.ArticleService;
 import splichus.com.newsapp.model.Article;
 import splichus.com.newsapp.service.Settings;
 import splichus.com.newsapp.persistency.Database;
-import splichus.com.newsapp.service.ArticlesProvider;
+import splichus.com.newsapp.service.ArticlesListener;
 import splichus.com.newsapp.service.Sort;
 
-public class MainActivity extends AppCompatActivity implements ArticlesProvider {
+public class MainActivity extends AppCompatActivity implements ArticlesListener {
 
     private static final String TAG = "MainActivity";
 
@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
     RecyclerAdapter adapter;
     Context ctx;
     Menu menu;
-    Boolean down;
+    boolean down;
+    boolean twoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +56,15 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         articleService = new ArticleService(this, settings, database, api, sort);
-        recyclerView = findViewById(R.id.main_recycler_view);
-        adapter = new RecyclerAdapter(this, database);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ctx = this;
         down = false;
+        if (findViewById(R.id.dual_details) != null) {
+            twoPane = true;
+        }
+        adapter = new RecyclerAdapter(this, database, twoPane);
+        recyclerView = findViewById(R.id.main_recycler_view);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override

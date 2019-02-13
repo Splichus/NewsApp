@@ -68,7 +68,7 @@ public class Sort implements Serializable {
 
         @Override
         public int compare(Article article1, Article article2) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             Date dateArticle1 = new Date();
             Date dateArticle2 = new Date();
             try {

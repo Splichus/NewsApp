@@ -8,4 +8,5 @@ public class Constants {
     public static final String SORT_DATE = "sortByDate";
     public static final String SORT_AUTHOR = "sortByAuthor";
     public static final String SORT = "sort";
+    public static final String URL = "url";
 }
