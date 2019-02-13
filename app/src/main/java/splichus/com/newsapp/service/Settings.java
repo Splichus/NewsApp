@@ -1,4 +1,4 @@
-package splichus.com.newsapp.model;
+package splichus.com.newsapp.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;

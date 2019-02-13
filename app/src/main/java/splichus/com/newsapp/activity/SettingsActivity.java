@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
-import splichus.com.newsapp.model.Settings;
+import splichus.com.newsapp.service.Settings;
 
 public class SettingsActivity extends AppCompatActivity {
 

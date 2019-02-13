@@ -2,9 +2,6 @@ package splichus.com.newsapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RadioButton;
 
 
 import java.util.List;
@@ -19,14 +18,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
 import splichus.com.newsapp.adapter.RecyclerAdapter;
 import splichus.com.newsapp.api.service.NewsAPI;
 import splichus.com.newsapp.service.ArticleService;
 import splichus.com.newsapp.model.Article;
-import splichus.com.newsapp.model.Settings;
+import splichus.com.newsapp.service.Settings;
 import splichus.com.newsapp.persistency.Database;
 import splichus.com.newsapp.service.ArticlesProvider;
+import splichus.com.newsapp.service.Sort;
 
 public class MainActivity extends AppCompatActivity implements ArticlesProvider {
 
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
     Settings settings;
     @Inject
     Database database;
+    @Inject
+    Sort sort;
 
     ArticleService articleService;
     RecyclerView recyclerView;
@@ -51,12 +54,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        articleService = new ArticleService(this, settings, database, api);
+        articleService = new ArticleService(this, settings, database, api, sort);
         recyclerView = findViewById(R.id.main_recycler_view);
         adapter = new RecyclerAdapter(this, database);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ctx = this;
+        down = false;
     }
 
     @Override
@@ -69,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
     @Override
     protected void onResume() {
         super.onResume();
+        if (menu != null) {
+            articleService.getFromCache();
+        }
         Log.d(TAG, "onResume: finished");
     }
 
@@ -120,5 +127,21 @@ public class MainActivity extends AppCompatActivity implements ArticlesProvider 
     private void openSortDialog(){
         SortDialog sortDialog = new SortDialog();
         sortDialog.show(getSupportFragmentManager(),"sortDialog");
+    }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch(view.getId()) {
+            case R.id.radio_author:
+                if (checked){
+                    sort.setSort(Constants.SORT_AUTHOR);
+                }
+                break;
+            case R.id.radio_date:
+                if (checked){
+                    sort.setSort(Constants.SORT_DATE);
+                }
+                break;
+        }
     }
 }

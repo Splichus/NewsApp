@@ -13,11 +13,10 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import splichus.com.newsapp.Constants;
-import splichus.com.newsapp.activity.MainActivity;
 import splichus.com.newsapp.api.service.NewsAPI;
-import splichus.com.newsapp.service.ArticleService;
-import splichus.com.newsapp.model.Settings;
+import splichus.com.newsapp.service.Settings;
 import splichus.com.newsapp.persistency.Database;
+import splichus.com.newsapp.service.Sort;
 
 @Module
 public class AppModule {
@@ -51,5 +50,11 @@ public class AppModule {
     @Inject
     Database database(Context ctx) {
         return Room.databaseBuilder(ctx, Database.class, "mydb").allowMainThreadQueries().build();
+    }
+
+    @Provides
+    @Singleton
+    Sort sort() {
+        return new Sort();
     }
 }

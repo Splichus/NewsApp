@@ -31,5 +31,15 @@
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/dialog_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
 </android.support.constraint.ConstraintLayout>
