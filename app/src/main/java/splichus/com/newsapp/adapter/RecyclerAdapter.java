@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +21,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
 import splichus.com.newsapp.activity.DetailsActivity;
@@ -110,19 +113,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ConstraintLayout item;
-        private ImageView picture;
-        private TextView title;
-        private TextView author;
-        private ImageView arrow;
+        @BindView(R.id.list_item_parent)
+        ConstraintLayout item;
+        @BindView(R.id.list_item_picture)
+        ImageView picture;
+        @BindView(R.id.list_item_title)
+        TextView title;
+        @BindView(R.id.list_item_author)
+        TextView author;
+        @BindView(R.id.list_item_arrow)
+        ImageView arrow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            item = itemView.findViewById(R.id.list_item_parent);
-            picture = itemView.findViewById(R.id.list_item_picture);
-            title = itemView.findViewById(R.id.list_item_title);
-            author = itemView.findViewById(R.id.list_item_author);
-            arrow = itemView.findViewById(R.id.list_item_arrow);
+            ButterKnife.bind(this, itemView);
         }
     }
 
