@@ -48,8 +48,7 @@ public class SortDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.sort.setSortingKey(sortBy);
-                mainActivity.sort.sort(mainActivity.adapter.getArticles());
+                mainActivity.articleService.sort(sortBy, mainActivity.articleService.getArticles());
                 getDialog().dismiss();
             }
         });

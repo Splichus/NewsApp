@@ -2,6 +2,8 @@ package splichus.com.newsapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 
 
@@ -17,6 +20,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindDrawable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Optional;
 import dagger.android.AndroidInjection;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
@@ -34,17 +41,21 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
     private static final String TAG = "MainActivity";
 
     @Inject
-    NewsAPI api;
-    @Inject
-    Settings settings;
+    ArticleService articleService;
     @Inject
     Database database;
 
-    ArticleService articleService;
-    Sort sort;
+    @Nullable
+    @BindView(R.id.dual_details)
+    FrameLayout dualDetails;
+    @BindView(R.id.main_recycler_view)
     RecyclerView recyclerView;
+    @BindDrawable(R.drawable.downloaded)
+    Drawable downloaded;
+    @BindDrawable(R.drawable.not_downloaded)
+    Drawable notDownloaded;
+
     RecyclerAdapter adapter;
-    Context ctx;
     Menu menu;
     boolean down;
     boolean twoPane;
@@ -54,15 +65,13 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        articleService = new ArticleService(this, settings, database, api, sort);
-        sort = new Sort(this);
-        ctx = this;
+        ButterKnife.bind(this);
+        articleService.setActivity(this);
         down = false;
-        if (findViewById(R.id.dual_details) != null) {
+        if (dualDetails != null) {
             twoPane = true;
         }
         adapter = new RecyclerAdapter(this, database, twoPane);
-        recyclerView = findViewById(R.id.main_recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -78,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
     protected void onResume() {
         super.onResume();
         if (menu != null) {
-            articleService.getFromCache();
+            articleService.getFromAPI();
         }
         Log.d(TAG, "onResume: finished");
     }
@@ -92,18 +101,21 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.toolbar_settings){
-            goToSettings();
-        } else if(item.getItemId() == R.id.toolbar_downloaded) {
-            if (!down) {
-                articleService.getFromDB();
-            } else {
-                articleService.getFromCache();
-            }
-        } else {
-            openSortDialog();
+        switch (item.getItemId()) {
+            case R.id.toolbar_settings:
+                goToSettings();
+                return true;
+            case R.id.toolbarfilter:
+                openSortDialog();
+                return true;
+            case R.id.toolbar_downloaded:
+                if (down) {
+                    articleService.getFromAPI();
+                } else {
+                    articleService.getFromDB();
+                }
+            default: return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -117,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         MenuItem arrow = menu.findItem(R.id.toolbar_downloaded);
         down = bool;
         if (bool){
-            arrow.setIcon(getResources().getDrawable(R.drawable.downloaded));
+            arrow.setIcon(downloaded);
         } else {
-            arrow.setIcon(getResources().getDrawable(R.drawable.not_downloaded));
+            arrow.setIcon(notDownloaded);
         }
     }
 

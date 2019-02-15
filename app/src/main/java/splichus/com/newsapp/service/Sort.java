@@ -14,30 +14,19 @@ import splichus.com.newsapp.model.Article;
 
 public class Sort {
 
-    String sortBy;
-    ArticlesListener activity;
-
-    public Sort(ArticlesListener activity) {
-        sortBy = "";
-        this.activity = activity;
+    public Sort() {
     }
 
-    public String getSortingKey() {
-        return sortBy;
-    }
-
-    public void setSortingKey(String sort) {
-        this.sortBy = sort;
-    }
-
-    public void sort (List<Article> articles) {
-        if (getSortingKey() != null) {
-            if (getSortingKey().equals(Constants.SORT_DATE)) {
-                activity.onArticles(sortByDate(articles));
-            } else if (getSortingKey().equals(Constants.SORT_AUTHOR)) {
-                activity.onArticles(sortByAuthor(articles));
-            } else activity.onArticles(articles);
+    public List<Article> sort (String sortBy, List<Article> articles) {
+        if (sortBy != null) {
+            switch (sortBy) {
+                case Constants.SORT_DATE:
+                    return sortByDate(articles);
+                case Constants.SORT_AUTHOR:
+                    return sortByAuthor(articles);
+            }
         }
+        return articles;
     }
 
     private List<Article> sortByAuthor(List<Article> articles) {

@@ -3,6 +3,8 @@ package splichus.com.newsapp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import splichus.com.newsapp.BuildConfig;
@@ -15,6 +17,7 @@ import splichus.com.newsapp.persistency.Database;
 
 public class ArticleService {
 
+
     List<Article> articles;
     ArticlesListener activity;
     Settings settings;
@@ -22,13 +25,16 @@ public class ArticleService {
     NewsAPI api;
     Sort sort;
 
-    public ArticleService(ArticlesListener activity, Settings settings, Database database, NewsAPI api, Sort sort) {
+    public ArticleService(Settings settings, Database database, NewsAPI api, Sort sort) {
         this.settings = settings;
         this.articles = new ArrayList<>();
-        this.activity = activity;
         this.database = database;
         this.api = api;
         this.sort = sort;
+    }
+
+    public void setActivity(ArticlesListener activity) {
+        this.activity = activity;
     }
 
     public void getFromAPI() {
@@ -46,13 +52,19 @@ public class ArticleService {
     }
 
     public void getFromDB() {
-        activity.onArticles(database.articleDAO().getAllArticles());
+        articles.clear();
+        articles.addAll(database.articleDAO().getAllArticles());
+        activity.onArticles(articles);
         activity.onDownloaded(true);
     }
 
     public void getFromCache() {
         activity.onArticles(articles);
         activity.onDownloaded(false);
+    }
+
+    public void sort(String sortBy, List<Article> articles) {
+        activity.onArticles(sort.sort(sortBy, articles));
     }
 
     public List<Article> getArticles() {
