@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
 import splichus.com.newsapp.service.ArticlesListener;
@@ -20,38 +23,36 @@ import splichus.com.newsapp.service.Sort;
 
 public class SortDialog extends DialogFragment {
     private static final String TAG = "LoginDialog";
-
-    String sortBy;
-    RadioButton author, date;
+    @BindView(R.id.radio_author)
+    RadioButton author;
+    @BindView(R.id.radio_date)
+    RadioButton date;
+    @BindView(R.id.dialog_save)
     TextView save;
+    String sortBy;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_sort, container, false);
-        author = view.findViewById(R.id.radio_author);
-        author.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortBy = Constants.SORT_AUTHOR;
-            }
-        });
-        date = view.findViewById(R.id.radio_date);
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortBy = Constants.SORT_DATE;
-            }
-        });
-        save = view.findViewById(R.id.dialog_save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.articleService.sort(sortBy, mainActivity.articleService.getArticles());
-                getDialog().dismiss();
-            }
-        });
+        ButterKnife.bind(this, view);
         return view;
+    }
+
+    @OnClick({R.id.radio_date, R.id.radio_author, R.id.dialog_save})
+    public void onClickListeners(View view) {
+        switch (view.getId()){
+            case R.id.radio_date:
+                sortBy = Constants.SORT_DATE;
+                break;
+            case R.id.radio_author:
+                sortBy = Constants.SORT_AUTHOR;
+                break;
+            case R.id.dialog_save:
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.articleService.sort(sortBy);
+                getDialog().dismiss();
+        }
     }
 }

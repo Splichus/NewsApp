@@ -63,7 +63,7 @@ public class ArticleService {
         activity.onDownloaded(false);
     }
 
-    public void sort(String sortBy, List<Article> articles) {
+    public void sort(String sortBy) {
         activity.onArticles(sort.sort(sortBy, articles));
     }
 
