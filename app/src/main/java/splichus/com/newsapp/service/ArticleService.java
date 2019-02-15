@@ -58,6 +58,18 @@ public class ArticleService {
         activity.onDownloaded(true);
     }
 
+    public void saveArticleToDB(Article article){
+        database.articleDAO().addArticle(article);
+    }
+
+    public Article getArticlefromDB(String articleURL) {
+        return database.articleDAO().getArticleByUrl(articleURL);
+    }
+
+    public void deleteArticleByURL(String URL) {
+
+    }
+
     public void getFromCache() {
         activity.onArticles(articles);
         activity.onDownloaded(false);

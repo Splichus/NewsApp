@@ -10,6 +10,8 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import dagger.android.AndroidInjection;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
@@ -25,20 +27,22 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.settings_newsapi_switch)
     Switch newsAPISwitch;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
         settings.changeEntry(Constants.NEWSAPI_URL, sharedPreferences.getBoolean(Constants.NEWSAPI_URL, true));
         newsAPISwitch.setChecked(settings.getStatus(Constants.NEWSAPI_URL));
-        newsAPISwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                sharedPreferences.edit().putBoolean(Constants.NEWSAPI_URL, isChecked).apply();
-                settings.changeEntry(Constants.NEWSAPI_URL, isChecked);
-                Toast.makeText(SettingsActivity.this, isChecked ? "NewsAPI enabled" : "NewsAPI disabled", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
+
+    @OnCheckedChanged(R.id.settings_newsapi_switch)
+    public void apiSwitched(CompoundButton newsAPISwitch, boolean isChecked) {
+        sharedPreferences.edit().putBoolean(Constants.NEWSAPI_URL, isChecked).apply();
+        settings.changeEntry(Constants.NEWSAPI_URL, isChecked);
+        Toast.makeText(SettingsActivity.this, isChecked ? "NewsAPI enabled" : "NewsAPI disabled", Toast.LENGTH_SHORT).show();
+    }
+
 }

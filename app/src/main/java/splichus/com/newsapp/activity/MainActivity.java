@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         if (dualDetails != null) {
             twoPane = true;
         }
-        adapter = new RecyclerAdapter(this, database, twoPane);
+        adapter = new RecyclerAdapter(this, articleService, twoPane);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

@@ -28,6 +28,7 @@ import splichus.com.newsapp.activity.MainActivity;
 import splichus.com.newsapp.fragment.DetailsFragment;
 import splichus.com.newsapp.model.Article;
 import splichus.com.newsapp.persistency.Database;
+import splichus.com.newsapp.service.ArticleService;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
@@ -35,13 +36,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     private MainActivity parent;
     private List<Article> articles;
-    private Database database;
+    private ArticleService articleService;
     private Boolean twoPane;
 
-    public RecyclerAdapter(MainActivity parent, Database database, Boolean twoPane) {
+    public RecyclerAdapter(MainActivity parent, ArticleService articleService, Boolean twoPane) {
         this.parent = parent;
         this.articles = new ArrayList<>();
-        this.database = database;
+        this.articleService = articleService;
         this.twoPane = twoPane;
     }
 
@@ -93,10 +94,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View v) {
                 if (downloaded(i)){
                     viewHolder.arrow.setImageResource(R.drawable.not_downloaded);
-                    database.articleDAO().deleteArticleByUrl(articles.get(i).getUrl());
+                    articleService.deleteArticleByURL(articles.get(i).getUrl());
                 } else {
                     viewHolder.arrow.setImageResource(R.drawable.delete);
-                    database.articleDAO().addArticle(articles.get(i));
+                    articleService.saveArticleToDB(articles.get(i));
                 }
             }
         });
@@ -126,7 +127,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     private boolean downloaded(int i) {
-        return database.articleDAO().getArticleByUrl(articles.get(i).getUrl()) != null;
+        return articleService.getArticlefromDB(articles.get(i).getUrl()) != null;
     }
 
 }
