@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         articleService.setActivity(this);
-        down = false;
         if (dualDetails != null) {
             twoPane = true;
         }
@@ -80,15 +79,12 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: started");
-        articleService.getFromAPI();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (menu != null) {
-            articleService.getFromAPI();
-        }
+        articleService.getFromAPI();
         Log.d(TAG, "onResume: finished");
     }
 
