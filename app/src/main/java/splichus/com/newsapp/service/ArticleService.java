@@ -66,8 +66,8 @@ public class ArticleService {
         return database.articleDAO().getArticleByUrl(articleURL);
     }
 
-    public void deleteArticleByURL(String URL) {
-
+    public void deleteArticleByURL(String url) {
+        database.articleDAO().deleteArticleByUrl(url);
     }
 
     public void getFromCache() {
