@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import dagger.android.AndroidInjection;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
@@ -21,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    @BindView(R.id.settings_newsapi_switch)
     Switch newsAPISwitch;
 
     @Override
@@ -28,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        newsAPISwitch = findViewById(R.id.settings_newsapi_switch);
         settings.changeEntry(Constants.NEWSAPI_URL, sharedPreferences.getBoolean(Constants.NEWSAPI_URL, true));
         newsAPISwitch.setChecked(settings.getStatus(Constants.NEWSAPI_URL));
         newsAPISwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

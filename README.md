@@ -1,7 +1,7 @@
 # NewsApp
  
  NewsApp is a simple Android JAVA application that allows user to access the NEWSapi and read selected articles. At this moment app is supporting downloading articles for later use, sorting them by Author or Date posted. 
- App supports both mbile and Tablets with different layouts.
+ App supports both phones and Tablets with different layouts.
  
 Libraries used:
 
@@ -9,6 +9,7 @@ Libraries used:
  - Dagger
  - Picasso
  - Room
+ - ButterKnife
  
  Technologies Used
  
