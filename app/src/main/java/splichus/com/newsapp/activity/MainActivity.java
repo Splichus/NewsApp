@@ -1,6 +1,5 @@
 package splichus.com.newsapp.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -11,9 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RadioButton;
 
 
 import java.util.List;
@@ -23,20 +20,17 @@ import javax.inject.Inject;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import dagger.android.AndroidInjection;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
-import splichus.com.newsapp.adapter.RecyclerAdapter;
-import splichus.com.newsapp.api.service.NewsAPI;
+import splichus.com.newsapp.adapter.ArticleAdapter;
+import splichus.com.newsapp.fragment.DetailsFragment;
 import splichus.com.newsapp.service.ArticleService;
 import splichus.com.newsapp.model.Article;
-import splichus.com.newsapp.service.Settings;
 import splichus.com.newsapp.persistency.Database;
 import splichus.com.newsapp.service.ArticlesListener;
-import splichus.com.newsapp.service.Sort;
 
-public class MainActivity extends AppCompatActivity implements ArticlesListener {
+public class MainActivity extends AppCompatActivity implements ArticlesListener, ArticleAdapter.ListClickListener {
 
     private static final String TAG = "MainActivity";
 
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
     @BindDrawable(R.drawable.not_downloaded)
     Drawable notDownloaded;
 
-    RecyclerAdapter adapter;
+    ArticleAdapter adapter;
     Menu menu;
     boolean down;
     boolean twoPane;
@@ -70,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
         if (dualDetails != null) {
             twoPane = true;
         }
-        adapter = new RecyclerAdapter(this, articleService, twoPane);
+        adapter = new ArticleAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -128,6 +122,21 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener 
             arrow.setIcon(downloaded);
         } else {
             arrow.setIcon(notDownloaded);
+        }
+    }
+
+    @Override
+    public void onListClicked(Article article) {
+        if (!twoPane) {
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(Constants.ARTICLE, article.getUrl());
+            startActivity(intent);
+        } else {
+            Bundle url = new Bundle();
+            url.putString(Constants.URL, article.getUrl());
+            DetailsFragment fragment = new DetailsFragment();
+            fragment.setArguments(url);
+            getSupportFragmentManager().beginTransaction().replace(R.id.dual_details, fragment).commit();
         }
     }
 
