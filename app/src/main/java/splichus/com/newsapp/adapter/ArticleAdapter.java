@@ -63,23 +63,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         Picasso.get().load(articles.get(i).getUrlToImage()).into(viewHolder.picture);
         viewHolder.title.setText(articles.get(i).getTitle());
         viewHolder.author.setText(articles.get(i).getAuthor());
-//        if (downloaded(i)) {
-//            viewHolder.arrow.setImageResource(R.drawable.delete);
-//        } else {
-//            viewHolder.arrow.setImageResource(R.drawable.not_downloaded);
-//        }
-//        viewHolder.arrow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (downloaded(i)){
-//                    viewHolder.arrow.setImageResource(R.drawable.not_downloaded);
-//                    articleService.deleteArticleByURL(articles.get(i).getUrl());
-//                } else {
-//                    viewHolder.arrow.setImageResource(R.drawable.delete);
-//                    articleService.saveArticleToDB(articles.get(i));
-//                }
-//            }
-//        });
     }
 
     @Override
