@@ -43,7 +43,13 @@ public class ArticleService {
             api.getEverything(BuildConfig.API_KEY, 20, "android").enqueue(new CustomCallback<APIResponse>() {
                 @Override
                 public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-                    articles.addAll((response.body().getArticles()));
+                    for (int i = 0; i < response.body().getArticles().size() ; i++) {
+                        if (isDownloaded(response.body().getArticles().get(i))) {
+                            articles.add(database.articleDAO().getArticleByUrl(response.body().getArticles().get(i).getUrl()));
+                        } else {
+                            articles.add(response.body().getArticles().get(i));
+                        }
+                    }
                     activity.onArticles(articles);
                     activity.onDownloaded(false);
                 }
@@ -59,6 +65,7 @@ public class ArticleService {
     }
 
     public void saveArticleToDB(Article article){
+        article.setDownloaded(true);
         database.articleDAO().addArticle(article);
     }
 
@@ -66,13 +73,9 @@ public class ArticleService {
         return database.articleDAO().getArticleByUrl(articleURL);
     }
 
-    public void deleteArticleByURL(String url) {
-        database.articleDAO().deleteArticleByUrl(url);
-    }
-
-    public void getFromCache() {
-        activity.onArticles(articles);
-        activity.onDownloaded(false);
+    public void deleteArticle(Article article) {
+        article.setDownloaded(false);
+        database.articleDAO().deleteArticleByUrl(article.getUrl());
     }
 
     public void sort(String sortBy) {
@@ -81,5 +84,17 @@ public class ArticleService {
 
     public List<Article> getArticles() {
         return articles;
+    }
+
+    public boolean isDownloaded(Article article){
+        return database.articleDAO().getArticleByUrl(article.getUrl()) != null;
+    }
+
+    public void downloadArticle(Article article, String fileName){
+
+        article.setFileName(fileName);
+        article.setDownloaded(true);
+        saveArticleToDB(article);
+
     }
 }

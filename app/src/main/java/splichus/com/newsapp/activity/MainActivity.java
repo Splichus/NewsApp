@@ -126,17 +126,16 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener,
     }
 
     @Override
+    public void onArticle(Article article) {
+
+    }
+
+    @Override
     public void onListClicked(Article article) {
         if (!twoPane) {
-            Intent intent = new Intent(this, DetailsActivity.class);
-            intent.putExtra(Constants.ARTICLE, article.getUrl());
-            startActivity(intent);
+            goToDetails(article);
         } else {
-            Bundle url = new Bundle();
-            url.putString(Constants.URL, article.getUrl());
-            DetailsFragment fragment = new DetailsFragment();
-            fragment.setArguments(url);
-            getSupportFragmentManager().beginTransaction().replace(R.id.dual_details, fragment).commit();
+            openDetailsFragment(article);
         }
     }
 
@@ -148,5 +147,19 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener,
     private void openSortDialog(){
         SortDialog sortDialog = new SortDialog();
         sortDialog.show(getSupportFragmentManager(),"sortDialog");
+    }
+
+    private void goToDetails(Article article) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(Constants.ARTICLE, article);
+        startActivity(intent);
+    }
+
+    private void openDetailsFragment(Article article) {
+        Bundle url = new Bundle();
+        url.putSerializable(Constants.ARTICLE, article);
+        DetailsFragment fragment = new DetailsFragment();
+        fragment.setArguments(url);
+        getSupportFragmentManager().beginTransaction().replace(R.id.dual_details, fragment).commit();
     }
 }

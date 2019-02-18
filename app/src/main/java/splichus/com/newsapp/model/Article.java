@@ -18,6 +18,8 @@ public class Article implements Serializable {
     private String author;
     private String urlToImage;
     private String publishedAt;
+    private boolean downloaded;
+    private String fileName;
 
     @Ignore
     public Article(String title, String author, String url, String urlToImage, String publishedAt) {
@@ -77,5 +79,21 @@ public class Article implements Serializable {
 
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public boolean isDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(boolean downloaded) {
+        this.downloaded = downloaded;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

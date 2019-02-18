@@ -8,4 +8,5 @@ public interface ArticlesListener {
 
     void onArticles(List<Article> articles);
     void onDownloaded(Boolean bool);
+    void onArticle(Article article);
 }

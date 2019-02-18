@@ -40,8 +40,8 @@ public class SortDialog extends DialogFragment {
         return view;
     }
 
-    @OnClick({R.id.radio_date, R.id.radio_author, R.id.dialog_save})
-    public void onClickListeners(View view) {
+    @OnClick({R.id.radio_date, R.id.radio_author})
+    public void onRadioClick(View view) {
         switch (view.getId()){
             case R.id.radio_date:
                 sortBy = Constants.SORT_DATE;
@@ -49,10 +49,13 @@ public class SortDialog extends DialogFragment {
             case R.id.radio_author:
                 sortBy = Constants.SORT_AUTHOR;
                 break;
-            case R.id.dialog_save:
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.articleService.sort(sortBy);
-                getDialog().dismiss();
         }
+    }
+
+    @OnClick(R.id.dialog_save)
+    public void onSavedClicked(View view) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.articleService.sort(sortBy);
+            getDialog().dismiss();
     }
 }

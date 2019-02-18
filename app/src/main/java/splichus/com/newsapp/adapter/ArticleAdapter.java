@@ -106,7 +106,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         }
 
         @OnClick(R.id.list_item_parent)
-        public void onitemClick(View view) {
+        public void onItemClick(View view) {
             mainActivity.onListClicked(articles.get(getAdapterPosition()));
         }
     }
