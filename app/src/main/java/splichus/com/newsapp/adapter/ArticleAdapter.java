@@ -114,11 +114,4 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     public interface ListClickListener{
         void onListClicked(Article article);
     }
-
-//    private boolean downloaded(int i) {
-//        return articleService.getArticlefromDB(articles.get(i).getUrl()) != null;
-//    }
-
-
-
 }

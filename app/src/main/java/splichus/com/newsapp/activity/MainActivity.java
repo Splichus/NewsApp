@@ -126,11 +126,6 @@ public class MainActivity extends AppCompatActivity implements ArticlesListener,
     }
 
     @Override
-    public void onArticle(Article article) {
-
-    }
-
-    @Override
     public void onListClicked(Article article) {
         if (!twoPane) {
             goToDetails(article);

@@ -22,7 +22,6 @@ import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
 import splichus.com.newsapp.model.Article;
 import splichus.com.newsapp.service.ArticleService;
-import splichus.com.newsapp.service.ArticlesListener;
 
 
 public class DetailsActivity extends AppCompatActivity {
@@ -67,4 +66,6 @@ public class DetailsActivity extends AppCompatActivity {
         downloadBar.setVisibility(View.GONE);
         Log.d(TAG, "downloadArticle: filename: "+folderName+"/"+fileName);
     }
+
+
 }
