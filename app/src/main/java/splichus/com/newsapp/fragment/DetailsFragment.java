@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 
 import java.io.File;
@@ -16,11 +15,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import dagger.android.AndroidInjection;
 import dagger.android.support.DaggerFragment;
 import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
-import splichus.com.newsapp.activity.MainActivity;
 import splichus.com.newsapp.model.Article;
 import splichus.com.newsapp.service.ArticleService;
 

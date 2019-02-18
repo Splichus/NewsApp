@@ -1,7 +1,5 @@
 package splichus.com.newsapp.adapter;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -20,14 +18,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import splichus.com.newsapp.Constants;
 import splichus.com.newsapp.R;
-import splichus.com.newsapp.activity.DetailsActivity;
-import splichus.com.newsapp.activity.MainActivity;
-import splichus.com.newsapp.fragment.DetailsFragment;
 import splichus.com.newsapp.model.Article;
-import splichus.com.newsapp.service.ArticleService;
-import splichus.com.newsapp.service.ArticlesListener;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder>{
 

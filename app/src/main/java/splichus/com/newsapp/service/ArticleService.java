@@ -3,8 +3,6 @@ package splichus.com.newsapp.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit2.Call;
 import retrofit2.Response;
 import splichus.com.newsapp.BuildConfig;

@@ -1,7 +1,5 @@
 package splichus.com.newsapp.service;
 
-
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
